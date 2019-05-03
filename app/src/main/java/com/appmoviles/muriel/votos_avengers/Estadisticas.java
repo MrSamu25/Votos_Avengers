@@ -3,21 +3,36 @@ package com.appmoviles.muriel.votos_avengers;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Estadisticas extends AppCompatActivity {
+import static com.appmoviles.muriel.votos_avengers.Votar.CANTIDAD;
+import static com.appmoviles.muriel.votos_avengers.Votar.CAPITAN;
+import static com.appmoviles.muriel.votos_avengers.Votar.CAPITANA;
+import static com.appmoviles.muriel.votos_avengers.Votar.DOCTOR;
+import static com.appmoviles.muriel.votos_avengers.Votar.ESTADISTICAS;
+import static com.appmoviles.muriel.votos_avengers.Votar.HULK;
+import static com.appmoviles.muriel.votos_avengers.Votar.IRONMAN;
+import static com.appmoviles.muriel.votos_avengers.Votar.SPIDERMAN;
+import static com.appmoviles.muriel.votos_avengers.Votar.THOR;
+import static com.appmoviles.muriel.votos_avengers.Votar.TOTAL_VOTOS;
+import static com.appmoviles.muriel.votos_avengers.Votar.VIUDA;
+
+public class Estadisticas extends AppCompatActivity implements View.OnClickListener {
 
     private TextView estadisticas_tv_banner;
 
-    public final static String banner_1 = "Los superhéroes más populares para";
-    public final static String banner_2 = "son";
+    public final static String banner_1 = "PORCENTAJES PARA:";
+
+    public final static String TODO_PUBLICO = "TODO PÚBLICO";
 
 
     private TextView estadisticas_tv_spiderman;
@@ -36,16 +51,6 @@ public class Estadisticas extends AppCompatActivity {
     private RadioButton estadisticas_rb_h_adolescentes;
     private RadioButton estadisticas_rb_ninos;
 
-    private int porcentaje_spiderman;
-    private int porcentaje_ironman;
-    private int porcentaje_hulk;
-    private int porcentaje_viuda;
-    private int porcentaje_capitan;
-    private int porcentaje_capitana;
-    private int porcentaje_doctor;
-    private int porcentaje_thor;
-
-
 
     //FireBase
     FirebaseDatabase database;
@@ -54,6 +59,8 @@ public class Estadisticas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estadisticas);
+
+        database = FirebaseDatabase.getInstance();
 
         estadisticas_tv_spiderman = findViewById(R.id.estadisticas_tv_spiderman);
         estadisticas_tv_ironman = findViewById(R.id.estadisticas_tv_ironman);
@@ -71,239 +78,81 @@ public class Estadisticas extends AppCompatActivity {
         estadisticas_rb_ninos = findViewById(R.id.estadisticas_rb_ninos);
 
 
-    }
+        cantidad_auxiliar = 0;
 
+        //SE MUESTRA LOS PORCENTAJES PARA TODO PÚBLICO
 
+        //problemas aquí
+        //cambiarInformacion(TODO_PUBLICO, totalVotos(), totalSpiderman(), totalThor(), totalViuda(), totalIronMan(), totalHulk(), totalDoctor(), totalCapitan(), totalCapitana());
 
-    //HAY PROBLEMAS AQUÍ, POR CUESTIONES DE TIEMPO NO PUDE HACERLO MÁS EFICIENTE LA CONSULTA
-    //Faltó hacer consultas más eficientes, para no gastar tanto código
-
-    public int cantidadTotalTotal(){
-
-        int total = 0;
-
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.SPIDERMAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.THOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.CAPITANA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.CAPITAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.VIUDA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.DOCTOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.HULK);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.IRONMAN);
-        total += cantidad_auxiliar;
-
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.SPIDERMAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.THOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.CAPITANA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.CAPITAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.VIUDA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.DOCTOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.HULK);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.IRONMAN);
-        total += cantidad_auxiliar;
-
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.SPIDERMAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.THOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.CAPITANA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.CAPITAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.VIUDA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.DOCTOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.HULK);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.IRONMAN);
-        total += cantidad_auxiliar;
-
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.SPIDERMAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.THOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.CAPITANA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.CAPITAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.VIUDA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.DOCTOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.HULK);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.IRONMAN);
-        total += cantidad_auxiliar;
-
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.SPIDERMAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.THOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.CAPITANA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.CAPITAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.VIUDA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.DOCTOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.HULK);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.IRONMAN);
-        total += cantidad_auxiliar;
-
-        return total;
-    }
-
-
-    public int cantidadTotalVotos_H_ADOLESCENTES() {
-
-        int total = 0;
-
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.SPIDERMAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.THOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.CAPITANA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.CAPITAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.VIUDA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.DOCTOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.HULK);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADOLESCENTES, Votar.IRONMAN);
-        total += cantidad_auxiliar;
-
-        return total;
+        //PROBLEMAS CON LA SINCRONÍA DE CANTIDAD AUXILIAR, DABA 0, CUANDO SE HACE LA CONSULTA CORRECTAMENTE, PERO POR COSAS DE SINCRONÍA SE OBTENÍA 0
 
     }
 
-    public int cantidadTotalVotos_M_ADOLESCENTES() {
+    public void cambiarInformacion(String texto, int total, int spiderman, int thor, int viuda, int ironman, int hulk, int doctor, int capitan, int capitana) {
 
-        int total = 0;
+        estadisticas_tv_banner.setText(banner_1 + texto);
 
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.SPIDERMAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.THOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.CAPITANA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.CAPITAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.VIUDA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.DOCTOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.HULK);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADOLESCENTES, Votar.IRONMAN);
-        total += cantidad_auxiliar;
+        estadisticas_tv_spiderman.setText((spiderman / total) + "");
+        estadisticas_tv_ironman.setText((ironman / total) + "");
+        estadisticas_tv_capitan.setText((capitan / total) + "");
+        estadisticas_tv_capitana.setText((capitana / total) + "");
+        estadisticas_tv_hulk.setText((hulk / total) + "");
+        estadisticas_tv_viuda.setText((viuda / total) + "");
+        estadisticas_tv_thor.setText((thor / total) + "");
+        estadisticas_tv_doctor.setText((doctor / total) + "");
 
-        return total;
     }
 
-    public int cantidadTotalVotos_H_ADULTOS() {
+    @Override
+    public void onClick(View v) {
 
-        int total = 0;
+        switch (v.getId()) {
 
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.SPIDERMAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.THOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.CAPITANA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.CAPITAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.VIUDA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.DOCTOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.HULK);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.H_ADULTOS, Votar.IRONMAN);
-        total += cantidad_auxiliar;
+            case R.id.estadisticas_btn_filtrar:
 
-        return total;
+
+                break;
+        }
     }
 
-    public int cantidadTotalVotos_M_ADULTAS() {
-        int total = 0;
-
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.SPIDERMAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.THOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.CAPITANA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.CAPITAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.VIUDA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.DOCTOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.HULK);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.M_ADULTAS, Votar.IRONMAN);
-        total += cantidad_auxiliar;
-
-        return total;
-    }
-
-    public int cantidadTotalVotos_NINIOS() {
-
-        int total = 0;
-
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.SPIDERMAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.THOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.CAPITANA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.CAPITAN);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.VIUDA);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.DOCTOR);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.HULK);
-        total += cantidad_auxiliar;
-        cantidadVotosPorHeroe(Pregunta_Segmento.NINIOS, Votar.IRONMAN);
-        total += cantidad_auxiliar;
-
-
-        return total;
-    }
-
-
+    //TOCA USAR ESTA VARIABLE PARA QUE SE PUEDA OBTENER UN VALOR DE UN DATO DENTRO DEL onDataChange
     private int cantidad_auxiliar;
 
-    public void cantidadVotosPorHeroe(String segmento, String superheroe) {
 
+    public int totalVotos() {
 
-        database.getReference().child(Votar.SUPERHEROES).child(superheroe).child(segmento).child(Votar.CANTIDAD).addListenerForSingleValueEvent(new ValueEventListener() {
+        int total = 0;
+        cantidad_auxiliar = 0;
 
+        database.getReference().child(ESTADISTICAS).child(TOTAL_VOTOS).child(CANTIDAD).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                cantidad_auxiliar = 0;
+                cantidad_auxiliar = Integer.parseInt(dataSnapshot.getValue().toString());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        total = cantidad_auxiliar;
+        return total;
+
+    }
+
+    public int totalSpiderman() {
+
+        int total = 0;
+        cantidad_auxiliar = 0;
+
+        database.getReference().child(ESTADISTICAS).child(SPIDERMAN).child(CANTIDAD).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 cantidad_auxiliar = Integer.parseInt(dataSnapshot.getValue().toString());
             }
 
@@ -312,5 +161,176 @@ public class Estadisticas extends AppCompatActivity {
 
             }
         });
+
+        total = cantidad_auxiliar;
+        return total;
+
     }
+
+    public int totalDoctor() {
+
+        int total = 0;
+        cantidad_auxiliar = 0;
+
+        database.getReference().child(ESTADISTICAS).child(DOCTOR).child(CANTIDAD).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                cantidad_auxiliar = Integer.parseInt(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        total = cantidad_auxiliar;
+        return total;
+
+    }
+
+    public int totalCapitan() {
+
+        int total = 0;
+        cantidad_auxiliar = 0;
+
+        database.getReference().child(ESTADISTICAS).child(CAPITAN).child(CANTIDAD).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                cantidad_auxiliar = Integer.parseInt(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        total = cantidad_auxiliar;
+        return total;
+
+    }
+
+    public int totalCapitana() {
+
+        int total = 0;
+        cantidad_auxiliar = 0;
+
+        database.getReference().child(ESTADISTICAS).child(CAPITANA).child(CANTIDAD).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                cantidad_auxiliar = Integer.parseInt(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        total = cantidad_auxiliar;
+        return total;
+
+    }
+
+    public int totalHulk() {
+
+        int total = 0;
+        cantidad_auxiliar = 0;
+
+        database.getReference().child(ESTADISTICAS).child(HULK).child(CANTIDAD).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                cantidad_auxiliar = Integer.parseInt(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        total = cantidad_auxiliar;
+        return total;
+
+    }
+
+    public int totalViuda() {
+
+        int total = 0;
+        cantidad_auxiliar = 0;
+
+        database.getReference().child(ESTADISTICAS).child(VIUDA).child(CANTIDAD).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                cantidad_auxiliar = Integer.parseInt(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        total = cantidad_auxiliar;
+        return total;
+
+    }
+
+    public int totalThor() {
+
+        int total = 0;
+        cantidad_auxiliar = 0;
+
+        database.getReference().child(ESTADISTICAS).child(THOR).child(CANTIDAD).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                cantidad_auxiliar = Integer.parseInt(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        total = cantidad_auxiliar;
+        return total;
+
+    }
+
+
+    public int totalIronMan() {
+
+        int total = 0;
+        cantidad_auxiliar = 0;
+
+        database.getReference().child(ESTADISTICAS).child(IRONMAN).child(CANTIDAD).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                cantidad_auxiliar = Integer.parseInt(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        total = cantidad_auxiliar;
+        return total;
+
+    }
+
+    public void mostrarMensaje(String texto) {
+        Toast.makeText(this, texto, Toast.LENGTH_LONG).show();
+    }
+
 }

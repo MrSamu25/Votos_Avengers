@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+
+    <TextView
+        android:id="@+id/pregunta_segmento_tv_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Seleccione el segmento al que pertenece"
+        android:textSize="20dp" />
+
+
+    <RadioGroup
+        android:id="@+id/pregunta_segmento_rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pregunta_segmento_tv_banner"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp">
+
+        <RadioButton
+            android:id="@+id/pregunta_segmento_rb_m_adultas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mujeres Adultas" />
+
+
+        <RadioButton
+            android:id="@+id/pregunta_segmento_rb_h_adultas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hombres Adultas" />
+
+        <RadioButton
+            android:id="@+id/pregunta_segmento_rb_m_adolescentes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mujeres Adolescentes" />
+
+        <RadioButton
+            android:id="@+id/pregunta_segmento_rb_h_adolescentes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hombres Adolescentes" />
+
+        <RadioButton
+            android:id="@+id/pregunta_segmento_rb_ninos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Niños" />
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/pregunta_segmento_btn_registrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pregunta_segmento_rg"
+        android:layout_centerInParent="true"
+        android:text="Registar" />
+
+</RelativeLayout>

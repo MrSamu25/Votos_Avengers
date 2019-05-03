@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+
+    <TextView
+        android:id="@+id/estadisticas_tv_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Los superhéroes más populares para HOMBRES ADULTOS son"
+        android:textSize="18dp" />
+
+    <LinearLayout
+        android:id="@+id/estadisticas_ly_heroes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/estadisticas_tv_banner"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Spiderman:" />
+
+            <TextView
+                android:id="@+id/estadisticas_tv_spiderman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ironman:" />
+
+            <TextView
+                android:id="@+id/estadisticas_tv_ironman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Capitán Ámerica:" />
+
+            <TextView
+                android:id="@+id/estadisticas_tv_capitan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Capitana Ámerica:" />
+
+            <TextView
+                android:id="@+id/estadisticas_tv_capitana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hulk:" />
+
+            <TextView
+                android:id="@+id/estadisticas_tv_hulk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="La Viuda Negra:" />
+
+            <TextView
+                android:id="@+id/estadisticas_tv_viuda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thor:" />
+
+            <TextView
+                android:id="@+id/estadisticas_tv_thor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Doctor Strange:" />
+
+            <TextView
+                android:id="@+id/estadisticas_tv_doctor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <RadioGroup
+        android:id="@+id/estadisticas_rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/estadisticas_ly_heroes"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp">
+
+        <RadioButton
+            android:id="@+id/estadisticas_rb_m_adultas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mujeres Adultas" />
+
+
+        <RadioButton
+            android:id="@+id/estadisticas_rb_h_adultas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hombres Adultas" />
+
+        <RadioButton
+            android:id="@+id/estadisticas_rb_m_adolescentes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mujeres Adolescentes" />
+
+        <RadioButton
+            android:id="@+id/estadisticas_rb_h_adolescentes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hombres Adolescentes" />
+
+        <RadioButton
+            android:id="@+id/estadisticas_rb_ninos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Niños" />
+    </RadioGroup>
+
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:id="@+id/estadisticas_btn_filtrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/estadisticas_rg"
+        android:layout_centerInParent="true"
+        android:text="Filtrar" />
+
+</RelativeLayout>
